@@ -50,7 +50,9 @@ public class MiRobot extends Agent{
             
             //nodos inicial y final
             inicio = new TNodo(origen, 1, 0, 0, null);
-            fin = new TNodo(destino, mundo.length -1,0,0, null);
+            fin = new TNodo(destino, mundo.length -2,0,0, null);
+            
+            //lista visitados
             
             //Inicializa las variables camino y expandidos donde el A* debe incluir el resultado
             for(int i=0;i<tamaño;i++){
@@ -82,6 +84,7 @@ public class MiRobot extends Agent{
             
             TNodo nodo;
             boolean end = false;
+
             while(!listaFrontera.isEmpty() && !end){
                 
                 nodo = listaFrontera.poll();    //devuelvo la cima sin eliminar
@@ -89,14 +92,13 @@ public class MiRobot extends Agent{
     
                 if(nodo.equals(fin)){   //si ya he llegado paro, sino expando nodos
                      //construyo bien el nodo llegada
-                    fin = listaInterior.get(listaInterior.size()-1);
-                    escribirCamino();
                     end = true;
                 }
                 else{
                     //expando y añado nuevos nodos a la lista forntera filtrando visitados
                     intermedios.addAll(nodo.expandir(mundo));   //expando nodos
                     filtrarVisitados(intermedios, listaInterior);  //una vez expandidos filtro los ya visitados
+                    filtrarFrontera(listaFrontera, intermedios);
                     listaFrontera.addAll(intermedios);
                     intermedios.clear();
                 }
@@ -132,27 +134,29 @@ public class MiRobot extends Agent{
         
         //funcion de filtrado de nodos visitados para no volver a expadir hacia atras
         public void filtrarVisitados(ArrayList<TNodo> lista, ArrayList<TNodo> visitados){
-
-            for(int i=0; i<lista.size();i++){
-                if(visitados.contains(lista.get(i))){
-                    lista.remove(i);
-                }
-            }      
+            
+            lista.removeAll(visitados);
         }    
+        
+        public void filtrarFrontera(PriorityQueue<TNodo> pq, ArrayList<TNodo> lista){
+            
+            lista.removeAll(pq);
+        }
         
         //escribir orden de exploracion de nodos
         public void escribirOrden(ArrayList<TNodo> lista){
             
-            //PriorityQueue <TNodo> aux = PQ;
-            TNodo n;
-           /* while(!aux.isEmpty()){
-                n = aux.poll();
-                expandidos[n.getPosicion()[0]][n.getPosicion()[1]] = n.getOrden();
-            }*/
-            for(int i=0; i<lista.size(); i++){
-                n = lista.get(i);              
-                expandidos[n.getPosicion()[0]][n.getPosicion()[1]] = i + 1;
+            int longitud = lista.size()-1;
+            //ultimo nodo
+            TNodo aux;
+            System.out.println(longitud);
+
+            for(int i=longitud; i>=0; i--){
+                aux = lista.get(i);
+                expandidos[aux.getPosicion()[0]][aux.getPosicion()[1]] = i+1;
+                
             }
+            //expandidos[origen][1] = 1;
         }
                 
         //llenado de matriz camino
