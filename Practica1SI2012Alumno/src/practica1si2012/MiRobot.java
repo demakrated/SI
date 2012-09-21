@@ -49,8 +49,8 @@ public class MiRobot extends Agent{
             mundo = practica1.mundo;
             
             //nodos inicial y final
-            inicio = new TNodo(origen, 1, 0, 0, null);
-            fin = new TNodo(destino, mundo.length -2,0,0, null);
+            fin = new TNodo(destino, mundo.length -2,0, null);
+            inicio = new TNodo(origen, 1, 0, null, new Voraz(fin));
             
             //lista visitados
             
@@ -113,21 +113,6 @@ public class MiRobot extends Agent{
             imprimirCamino();
             imprimirExpandidos();
 
-		/*para cada hijo m de n que no esté en listaInterior
-			g'(m) = n·g + c(n, m)  //g del nodo a explorar m
-
-			si m no está en listaFrontera
-				almacenar la f, g y h del nodo en (m.f, m.g, m.h)
-				m.padre = n
-				listaFrontera.add(m)
-			sino si g'(m) es mejor que m.g  //Verificamos si el nuevo camino es mejor
-				m.padre = n
-				recalcular f y g del nodo m
-			fsi
-		fpara
-	fmientras
-	devolver no hay solución*/
-
             return 0;
         }
         
@@ -156,7 +141,6 @@ public class MiRobot extends Agent{
                 expandidos[aux.getPosicion()[0]][aux.getPosicion()[1]] = i+1;
                 
             }
-            //expandidos[origen][1] = 1;
         }
                 
         //llenado de matriz camino
