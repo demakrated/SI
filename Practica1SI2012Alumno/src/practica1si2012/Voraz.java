@@ -10,17 +10,24 @@ package practica1si2012;
  */
 public class Voraz implements Heuristica {
     
+    TNodo fin;
+    
+    public Voraz(TNodo fin)
+    {
+        this.fin = fin;
+    }
+    
     /**
      *
      */
-    public int calcular(int [][]M, TNodo inicio, TNodo llegada){
+    public int calcular(TNodo inicio){
         
-        int res1 = (llegada.getPosicion()[1] - inicio.getPosicion()[1]);
+        int res1 = (fin.getPosicion()[1] - inicio.getPosicion()[1]);
         if(res1 < 0){
             res1 = -res1;
         }
                 
-        int res2 = (llegada.getPosicion()[0] - inicio.getPosicion()[0]);
+        int res2 = (fin.getPosicion()[0] - inicio.getPosicion()[0]);
         if(res2 < 0){
             res2 = -res2;
         }

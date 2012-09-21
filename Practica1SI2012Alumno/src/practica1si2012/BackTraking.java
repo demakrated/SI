@@ -10,7 +10,13 @@ package practica1si2012;
  */
 public class BackTraking implements Heuristica{
     
-    public int calcular(int [][]M, TNodo inicio, TNodo fin){
+    private TNodo fin;
+    
+    public BackTraking(TNodo fin){
+        this.fin = fin;
+    }
+    
+    public int calcular(TNodo inicio){
         
         return 0;
     }

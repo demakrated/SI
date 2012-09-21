@@ -10,6 +10,6 @@ package practica1si2012;
  */
 public interface Heuristica {
     
-    public int calcular(int [][]mundo, TNodo inicio, TNodo fin);
+    public int calcular(TNodo inicio);
     
 }
