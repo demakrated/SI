@@ -19,6 +19,7 @@ import static org.junit.Assert.*;
 public class TNodoTest {
     
     private int [][] mundo; 
+    private int tamaño;
     private TNodo uso;
     private TNodo n11;
     private TNodo n12;
@@ -26,6 +27,8 @@ public class TNodoTest {
     private TNodo n21;
     private TNodo n31;
     private TNodo n32;
+    private int origen;
+    private int destino;
     
     public TNodoTest() {
     }
@@ -50,41 +53,10 @@ public class TNodoTest {
          n31 = new TNodo(3,1,2,1,n21);
          n32 = new TNodo(3,2,3,1,n31);
          
+         //genero un mundo (cambiar a mano el tamaño al instanciar) pero parseo con utilidades.leerMundo
          mundo = new int[5][5];
+         Utilidades.getLeer("mundo2", mundo, origen, destino);
          
-
-         //my mundo 
-         /*
-          * * * * *
-          * . . . * 
-          * . - - *
-          * . . . *
-          * * * * *   */
-         
-         //donde
-         // * == muro
-         // - == obstaculo
-         // . == libre
-         
-         
-         //lo inicializo
-         for(int i=0; i<5; i++){
-             for(int j=0;j<5;j++){
-                 if(i == 0 || i == 4){    //primera linea
-                     mundo[i][j] = 2;
-                 }
-                 if(i == 1 || i == 3){    //segunda
-                     mundo[i][j] = 0;
-                 }
-                 if(i == 2){    //tercera
-                     mundo[i][j] = 1;
-                 }
-                 if(j == 0 || j == 4){  //contorno
-                    mundo[i][j] = 2;
-                 }
-             }
-         }
-         mundo[2][1] = 0;
     
     }
     
@@ -98,7 +70,6 @@ public class TNodoTest {
     @Test
     public void testExpandirYEquals() {
         System.out.println("expandir");
-        //int[][] mundo = null;
         TNodo instance = n11;
         ArrayList<TNodo> expResult = new ArrayList<TNodo>();
         expResult.add(n12);
@@ -113,6 +84,14 @@ public class TNodoTest {
             
         System.out.print("OK!!");
         
+    }
+    
+    @Test
+    public void testToString(){
+        
+        System.out.println("toString:");
+        assertEquals(n11.toString(), "1, 1");
+        System.out.println("OK!!");
     }
 
     /**
