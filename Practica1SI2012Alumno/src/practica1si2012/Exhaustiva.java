@@ -8,21 +8,19 @@ package practica1si2012;
  *
  * @author danielpedrajasvandevelde
  */
-public class Pitagoras implements Heuristica{
+public class Exhaustiva implements Heuristica{
+       
+    TNodo fin;
     
-    private TNodo fin;
-    
-    public Pitagoras(TNodo fin){
+    public Exhaustiva(TNodo fin)
+    {
         this.fin = fin;
     }
     
+    //la heuristica no añade coste, por tanto es expansion por niveles
     public int calcular(TNodo inicio){
         
-        int res1 = (fin.getPosicion()[1] - inicio.getPosicion()[1]);
-       
-        int res2 = (fin.getPosicion()[0] - inicio.getPosicion()[0]);
-
-        return (int) Math.sqrt(Math.pow(res1, 2) + Math.pow(res2, 2));
+        return 0;
     }
     
     public String toString(){

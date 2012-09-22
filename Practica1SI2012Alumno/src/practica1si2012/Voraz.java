@@ -34,6 +34,10 @@ public class Voraz implements Heuristica {
         
         return res1 + res2;
     }
+    
+    public String toString(){
+         return this.getClass().getName();
+    }
 }
     
 

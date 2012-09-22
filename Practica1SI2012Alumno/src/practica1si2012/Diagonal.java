@@ -46,4 +46,8 @@ public class Diagonal implements Heuristica{
         return min + mid + last;
     }
     
+    public String toString(){
+         return this.getClass().getName();
+    }
+    
 }

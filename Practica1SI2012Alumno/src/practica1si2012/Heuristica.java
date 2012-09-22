@@ -12,4 +12,7 @@ public interface Heuristica {
     
     public int calcular(TNodo inicio);
     
+    @Override
+    public String toString();
+    
 }
