@@ -30,7 +30,8 @@ public class MiRobot extends Agent{
         char camino[][]; //Camino que debe seguir el robot. Será el resultado del A*
         int expandidos[][]; //Orden de los nodos expandidos. Será el resultado del A*
         int tamaño; //Tamaño del mundo
-        int ordenExpansion = 0;  //Orden de los nodos
+        int totalVisitados;
+        int longitudCamino;
         TNodo inicio;
         TNodo fin;
 
@@ -47,10 +48,11 @@ public class MiRobot extends Agent{
             origen = practica1.origen;
             destino = practica1.destino;
             mundo = practica1.mundo;
+            totalVisitados = 0;
             
             //nodos inicial y final
             fin = new TNodo(destino, mundo.length -2,0, null);
-            inicio = new TNodo(origen, 1, 0, null, new Voraz(fin));
+            inicio = new TNodo(origen, 1, 0, null, new Diagonal(fin));
             
             //lista visitados
             
@@ -106,6 +108,7 @@ public class MiRobot extends Agent{
             
             //construyo el nodo llegada bien
             fin = listaInterior.get(listaInterior.size()-1);
+            totalVisitados = listaInterior.size();
             
             //escribo camino y orden de expansion de nodos
             escribirCamino();
@@ -131,15 +134,12 @@ public class MiRobot extends Agent{
         //escribir orden de exploracion de nodos
         public void escribirOrden(ArrayList<TNodo> lista){
             
-            int longitud = lista.size()-1;
             //ultimo nodo
             TNodo aux;
-            System.out.println(longitud);
-
-            for(int i=longitud; i>=0; i--){
+            
+            for(int i=0; i<lista.size(); i++){
                 aux = lista.get(i);
-                expandidos[aux.getPosicion()[0]][aux.getPosicion()[1]] = i+1;
-                
+                expandidos[aux.getPosicion()[0]][aux.getPosicion()[1]] = i;            
             }
         }
                 
@@ -152,6 +152,7 @@ public class MiRobot extends Agent{
                 pos = aux.getPosicion();
                 aux = aux.getPapa();
                 camino[pos[0]][pos[1]] = 'X';
+                longitudCamino++;  
             }
             pos = aux.getPosicion();
             camino[pos[0]][pos[1]] = 'X';
@@ -160,7 +161,7 @@ public class MiRobot extends Agent{
          //imprime matriz tipo char por pantalla
         public void imprimirCamino(){
             
-            System.out.println("Camino:");
+            System.out.println("Camino: (Cuya longitud es: " + longitudCamino + ")");
             for(int i=0; i<camino.length; i++){
                 for(int j=0; j<camino.length; j++){
                     System.out.print(camino[i][j] + " ");
@@ -172,15 +173,32 @@ public class MiRobot extends Agent{
         //imprime una matriz de enteros
         public void imprimirExpandidos(){
 
-            System.out.println("Nodos explorados:");
+            System.out.println("Nodos explorados: (en total " + (totalVisitados - 1) + ")");
+            
+            int anterior = -1;
+            int siguiente = -1;
             for(int i=0; i<expandidos.length; i++){
                 for(int j=0; j<expandidos.length; j++){
-                     if(expandidos[i][j] >= 0){
-                        System.out.print(" " + expandidos[i][j] + " ");
-                    }else{
+                    if(j > 0){
+                        anterior = expandidos[i][j-1];  //nodo anterior para controlar espaciado
+                    }
+                    if(j < expandidos.length - 1){
+                        siguiente = expandidos[i][j+1];
+                    }
+                    if(expandidos[i][j] >= 0 && anterior >= 0 && siguiente < 10 && siguiente >= 0){
+                        System.out.print(expandidos[i][j]+"  ");
+                    }
+                    else if(expandidos[i][j] >= 0 && anterior < 0 && siguiente < 10 && siguiente >= 0){
+                        System.out.print(expandidos[i][j] + "  ");
+                    }
+                    else if(expandidos[i][j] < 0 && anterior < 0 && siguiente < 10 && siguiente >= 0){
+                        System.out.print(expandidos[i][j] + "  ");
+                    }
+                    else{
                         System.out.print(expandidos[i][j] + " ");
                     }
                 }
+                anterior = -1;
                 System.out.println();
             }
         }
