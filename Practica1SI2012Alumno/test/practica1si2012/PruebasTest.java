@@ -18,12 +18,26 @@ import static org.junit.Assert.*;
  * @author danielpedrajasvandevelde
  */
 public class PruebasTest {
+    
+    private int [][] mundo; 
+
+    private int origen; //Punto de partida del robot. Será la columna 1 y esta fila
+    private int destino; //Punto de destino del robot. Será la columna tamaño-2 y esta fila
+    private char camino[][]; //Camino que debe seguir el robot. Será el resultado del A*
+    private int expandidos[][]; //Orden de los nodos expandidos. Será el resultado del A*
+    private int tamaño; //Tamaño del mundo
+    private int totalVisitados;
+    private int longitudCamino;
+    private ArrayList<Heuristica> funciones;
+    private TNodo inicio;
+    private TNodo fin; 
 
     public PruebasTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
+        
     }
     
     @AfterClass
@@ -32,6 +46,17 @@ public class PruebasTest {
     
     @Before
     public void setUp() {
+        
+        fin = new TNodo(3, 3, 0, null);
+        
+        //relleno el array con instancias de las diferenes heuristicas
+        funciones = new ArrayList<Heuristica>();
+        funciones.add(new Exhaustiva(fin));
+        funciones.add(new Manhattan(fin));
+        funciones.add(new Pitagoras(fin));
+        funciones.add((new Voraz(fin)));
+        funciones.add(new Diagonal(fin));
+        
     }
     
     @After
@@ -56,11 +81,26 @@ public class PruebasTest {
      */
     @Test
     public void testAestrella() {
+        
+        //cambiar si cambia el mundo.txt!!!!!!
+        int longitud = 4;
+        String parser = "practica1si2012.";
         System.out.println("Aestrella");
-        Pruebas instance = new Pruebas();
-        int expResult = 0;
-        int result = instance.Aestrella();
-        assertEquals(expResult, result);
+        
+        
+        for(int i=0; i<funciones.size(); i++){
+            System.out.println("Heuristica: " + (funciones.get(i).toString().replaceAll(parser, "")));
+            inicio = new TNodo(1,1,0,null, funciones.get(i));
+            Pruebas instance = new Pruebas(inicio);
+            int expResult = 0;
+            int result = instance.AEstrella();
+            assertEquals(expResult, result);
+            assertEquals(longitud, instance.getLongitud());
+            System.out.println("OK!!");
+            System.out.println();
+        }
+        
+        System.out.println("Todas las longitudes coinciden...OK!!!");
        
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

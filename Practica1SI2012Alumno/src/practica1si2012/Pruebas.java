@@ -16,12 +16,12 @@ public class Pruebas {
     
     private int [][] mundo; 
 
-    private int origen; //Punto de partida del robot. Será la columna 1 y esta fila
-    private int destino; //Punto de destino del robot. Será la columna tamaño-1 y esta fila
+    private int destino; //Punto de destino del robot. Será la columna tamaño-2 y esta fila
     private char camino[][]; //Camino que debe seguir el robot. Será el resultado del A*
     private int expandidos[][]; //Orden de los nodos expandidos. Será el resultado del A*
     private int tamaño; //Tamaño del mundo
-    private int ordenExpansion = 0;  //Orden de los nodos
+    private int totalVisitados;
+    private int longitudCamino;
     private TNodo inicio;
     private TNodo fin; 
         
@@ -30,18 +30,36 @@ public class Pruebas {
     private ArrayList<TNodo> visitados = new ArrayList<TNodo>();
     
     //constructor
-    public Pruebas(){
-        origen = 1;
+    public Pruebas(TNodo tn){
+
         destino =3;
         tamaño = 5;
-        ordenExpansion = 0;
-        inicio = new TNodo(1,1,1,null);
-        fin = new TNodo(2,2,2,null);
+        longitudCamino = 0;
+        totalVisitados = 0;
         mundo = new int[tamaño][tamaño];
         camino = new char[tamaño][tamaño];
         expandidos = new int[tamaño][tamaño];
+        mundo = Utilidades.getMundo("mundo2.txt");
         
-        Utilidades.getLeer("mundo2", mundo, origen, destino);
+        //nodos inicial y final
+        fin = new TNodo(destino, mundo.length -2,0, null);
+        
+        //inicio lo construyo desde el test
+        inicio = tn;
+        
+        //Inicializa las variables camino y expandidos donde el A* debe incluir el resultado
+            for(int i=0;i<tamaño;i++){
+                for(int j=0;j<tamaño;j++){
+                    camino[i][j] = '.';
+                    expandidos[i][j] = -1;
+                }
+            }
+        
+        
+    }
+    
+    public int getLongitud(){
+        return longitudCamino;
     }
     
     //sobrecarga de comparator para PQ
@@ -53,32 +71,8 @@ public class Pruebas {
             }
         }
     
-    //funcion de filtrado de nodos visitados para no volver a expadir hacia atras
-    public void filtrarVisitados(ArrayList<TNodo> lista){
-        
-        for(int i=0; i<lista.size();i++){
-            if(visitados.contains(lista.get(i))){
-                lista.remove(i);
-            }
-        }      
-    }
-    
-    public void iniciarMatrices(){
-        //Inicializa las variables camino y expandidos donde el A* debe incluir el resultado
-            for(int i=0;i<tamaño;i++){
-                for(int j=0;j<tamaño;j++){
-                    camino[i][j] = '.';
-                    expandidos[i][j] = -1;
-                }
-            }
-    }
-    
-    public int Aestrella(){
-
-            //nodos inicial y final
-        
-            inicio = new TNodo(origen, 1, 0, null);
-            fin = new TNodo(destino, mundo.length -2,0, null);
+    //Calcula el A*
+        public int AEstrella(){
             
             //camino de nodos visitados del camino más corto
             ArrayList<TNodo> listaInterior = new ArrayList<TNodo>();
@@ -117,6 +111,7 @@ public class Pruebas {
             
             //construyo el nodo llegada bien
             fin = listaInterior.get(listaInterior.size()-1);
+            totalVisitados = listaInterior.size();
             
             //escribo camino y orden de expansion de nodos
             escribirCamino();
@@ -125,10 +120,15 @@ public class Pruebas {
             imprimirExpandidos();
 
             return 0;
-                
-    }
-    
-    //funcion de filtrado de nodos visitados para no volver a expadir hacia atras
+        }
+        
+        public int busquedaExhaustiva(){
+            
+            return 0;
+        }
+        
+        
+        //funcion de filtrado de nodos visitados para no volver a expadir hacia atras
         public void filtrarVisitados(ArrayList<TNodo> lista, ArrayList<TNodo> visitados){
             
             lista.removeAll(visitados);
@@ -142,15 +142,12 @@ public class Pruebas {
         //escribir orden de exploracion de nodos
         public void escribirOrden(ArrayList<TNodo> lista){
             
-            int longitud = lista.size()-1;
             //ultimo nodo
             TNodo aux;
-            System.out.println(longitud);
-
-            for(int i=longitud; i>=0; i--){
+            
+            for(int i=0; i<lista.size(); i++){
                 aux = lista.get(i);
-                expandidos[aux.getPosicion()[0]][aux.getPosicion()[1]] = i+1;
-                
+                expandidos[aux.getPosicion()[0]][aux.getPosicion()[1]] = i;            
             }
         }
                 
@@ -163,6 +160,7 @@ public class Pruebas {
                 pos = aux.getPosicion();
                 aux = aux.getPapa();
                 camino[pos[0]][pos[1]] = 'X';
+                longitudCamino++;  
             }
             pos = aux.getPosicion();
             camino[pos[0]][pos[1]] = 'X';
@@ -171,7 +169,7 @@ public class Pruebas {
          //imprime matriz tipo char por pantalla
         public void imprimirCamino(){
             
-            System.out.println("Camino:");
+            System.out.println("Camino: (Cuya longitud es: " + longitudCamino + ")");
             for(int i=0; i<camino.length; i++){
                 for(int j=0; j<camino.length; j++){
                     System.out.print(camino[i][j] + " ");
@@ -183,18 +181,34 @@ public class Pruebas {
         //imprime una matriz de enteros
         public void imprimirExpandidos(){
 
-            System.out.println("Nodos explorados:");
+            System.out.println("Nodos explorados: (en total " + (totalVisitados - 1) + ")");
+            
+            int anterior = -1;
+            int siguiente = -1;
             for(int i=0; i<expandidos.length; i++){
                 for(int j=0; j<expandidos.length; j++){
-                     if(expandidos[i][j] >= 0){
-                        System.out.print(" " + expandidos[i][j] + " ");
-                    }else{
+                    if(j > 0){
+                        anterior = expandidos[i][j-1];  //nodo anterior para controlar espaciado
+                    }
+                    if(j < expandidos.length - 1){
+                        siguiente = expandidos[i][j+1];
+                    }
+                    if(expandidos[i][j] >= 0 && anterior >= 0 && siguiente < 10 && siguiente >= 0){
+                        System.out.print(expandidos[i][j]+"  ");
+                    }
+                    else if(expandidos[i][j] >= 0 && anterior < 0 && siguiente < 10 && siguiente >= 0){
+                        System.out.print(expandidos[i][j] + "  ");
+                    }
+                    else if(expandidos[i][j] < 0 && anterior < 0 && siguiente < 10 && siguiente >= 0){
+                        System.out.print(expandidos[i][j] + "  ");
+                    }
+                    else{
                         System.out.print(expandidos[i][j] + " ");
                     }
                 }
+                anterior = -1;
                 System.out.println();
             }
         }
-        
     
 }
