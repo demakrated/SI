@@ -30,7 +30,44 @@ public class Pruebas {
     private ArrayList<TNodo> visitados = new ArrayList<TNodo>();
     
     //constructor
-    public Pruebas(TNodo tn){
+    public Pruebas(TNodo tn, String nombre){
+        
+        
+        if(nombre.equals("mundo.txt")){
+            destino = 10;
+            tamaño = 20;
+        }
+        else if(nombre.equals("mundo2.txt")){
+            destino = 3;
+            tamaño = 5;
+        }
+
+        longitudCamino = 0;
+        totalVisitados = 0;
+        mundo = Utilidades.getMundo(nombre);
+        camino = new char[tamaño][tamaño];
+        expandidos = new int[tamaño][tamaño];
+        
+        
+        //nodos inicial y final
+        fin = new TNodo(destino, tamaño -2,0, null);
+        
+        //inicio lo construyo desde el test
+        inicio = tn;
+        
+        //Inicializa las variables camino y expandidos donde el A* debe incluir el resultado
+            for(int i=0;i<tamaño;i++){
+                for(int j=0;j<tamaño;j++){
+                    camino[i][j] = '.';
+                    expandidos[i][j] = -1;
+                }
+            }
+        
+        
+    }
+    
+    //constructor
+    public Pruebas(){
 
         destino =3;
         tamaño = 5;
@@ -45,7 +82,7 @@ public class Pruebas {
         fin = new TNodo(destino, mundo.length -2,0, null);
         
         //inicio lo construyo desde el test
-        inicio = tn;
+        inicio = new TNodo(1, 1, 0, null, new Diagonal(fin));
         
         //Inicializa las variables camino y expandidos donde el A* debe incluir el resultado
             for(int i=0;i<tamaño;i++){
