@@ -20,7 +20,13 @@ public class Manhattan implements Heuristica{
         int res1 = (fin.getPosicion()[1] - inicio.getPosicion()[1]);
         int res2 = (fin.getPosicion()[0] - inicio.getPosicion()[0]);
         
-        return (int) Math.sqrt(Math.pow(res1, 2) + Math.pow(res2, 2));
+        //primer algoritmo econtrado
+        return (int) Math.sqrt(Math.pow(res1, 2) + Math.pow(res2, 2)); 
+        
+        //segundo algoritmo encontrado
+        //return Math.abs(inicio.getPosicion()[0] - fin.getPosicion()[0]) 
+          //      + Math.abs(inicio.getPosicion()[1] - fin.getPosicion()[1]);
+        
     }
     
     public String toString(){

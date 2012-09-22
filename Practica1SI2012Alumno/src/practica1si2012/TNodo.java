@@ -23,6 +23,7 @@ public class TNodo {
         fila = x; columna = y; daddy = papa; this.h = h; this.real = real; coste = -1;
     }
     
+    //otro constructor por parametros
     TNodo(int x, int y, int real, TNodo papa){
         fila = x; columna = y; daddy = papa; this.real = real; coste = -1;
     }
@@ -71,7 +72,7 @@ public class TNodo {
         }
     }
     
-    //getter coste
+    //getter coste que lanza las heuristicas en la PQ
     public int getCoste(){
         if(coste<0) coste = real + h.calcular(this);
         return coste;
@@ -85,12 +86,13 @@ public class TNodo {
         return (fila == nodo.fila && columna == nodo.columna);
     }
     
-    
+    //sobrecarga de toString
     public String toString(){
         
         return fila + ", " + columna;
     }
     
+    //getter de la posicion en vector de 2 componentes
     public int[] getPosicion(){
         int[] pos = new int[2];
         pos[0]=fila;

@@ -25,9 +25,6 @@ public class Pruebas {
     private TNodo inicio;
     private TNodo fin; 
         
-        
-    //camino de nodos visitados del camino más corto
-    private ArrayList<TNodo> visitados = new ArrayList<TNodo>();
     
     //constructor
     public Pruebas(TNodo tn, String nombre){

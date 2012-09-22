@@ -45,17 +45,17 @@ public class TNodoTest {
     @Before
     public void setUp() {
 
-         uso  = new TNodo(0,0,0,0,null);
-         n11 = new TNodo(1,1,0,0,uso);
-         n12 = new TNodo(1,2,1,1,n11);
-         n13 = new TNodo(1,3,2,1,n12);
-         n21 = new TNodo(2,1,1,1,n11);
-         n31 = new TNodo(3,1,2,1,n21);
-         n32 = new TNodo(3,2,3,1,n31);
+         uso  = new TNodo(0,0,0,null);
+         n11 = new TNodo(1,1,0,uso);
+         n12 = new TNodo(1,2,1,n11);
+         n13 = new TNodo(1,3,2,n12);
+         n21 = new TNodo(2,1,1,n11);
+         n31 = new TNodo(3,1,2,n21);
+         n32 = new TNodo(3,2,3,n31);
          
          //genero un mundo (cambiar a mano el tamaño al instanciar) pero parseo con utilidades.leerMundo
          mundo = new int[5][5];
-         Utilidades.getLeer("mundo2", mundo, origen, destino);
+         mundo = Utilidades.getMundo("mundo2.txt");
          
     
     }
