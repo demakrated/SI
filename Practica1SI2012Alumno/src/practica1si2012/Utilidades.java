@@ -18,19 +18,11 @@ public class Utilidades {
     private Utilidades instancia = new Utilidades();
     private Utilidades(){};
     private static int tamaño_mundo;
-    private static int [][] mundo;
-    private static int origen;
-    private static int destino;
-    
-    public static int [][]getMundo(String archivo){
-        leerMundo(archivo);
-        return mundo;
-    }
     
     
       //Función para leer el fichero
      //Lee un tablero de juego desde un fichero
-    private static boolean leerMundo(String archivo){
+    private static boolean leerMundo(String archivo, int [][]mundo, int origen, int destino){
         FileReader fr = null;
         String sCadena;
         String delimitador = " ";
@@ -127,12 +119,11 @@ public class Utilidades {
             return true;
     }
     
-    public static int getOrigen(){
-        return origen;
+
+    public static boolean getLeer(String archivo, int [][]mundo, int origen, int destino){
+        
+        return leerMundo(archivo, mundo, origen, destino);
     }
-    
-    public static int getDestino(){
-        return destino;
-    }
+ 
     
 }

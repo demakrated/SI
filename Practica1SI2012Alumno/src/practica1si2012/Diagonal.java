@@ -39,7 +39,6 @@ public class Diagonal implements Heuristica{
         
         int min = hipotenusa*Math.min(horizontal, vertical);
         
-        //multiplicmos por la distancia horizontal o vertical
         int mid = (horizontal + vertical)*vertical;
         
         int last = 2*Math.min(horizontal, vertical);

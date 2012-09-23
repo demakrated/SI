@@ -1,13 +1,13 @@
 /*
-+ * To change this template, choose Tools | Templates
-+ * and open the template in the editor.
-+ */
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package practica1si2012;
 
 /**
-+ *
-+ * @author danielpedrajasvandevelde
-+ */
+ *
+ * @author danielpedrajasvandevelde
+ */
 public class Pitagoras implements Heuristica{
     
     private TNodo fin;
