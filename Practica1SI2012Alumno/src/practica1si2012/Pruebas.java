@@ -16,7 +16,6 @@ public class Pruebas {
     
     private int [][] mundo; 
 
-    private int origen;
     private int destino; //Punto de destino del robot. Será la columna tamaño-2 y esta fila
     private char camino[][]; //Camino que debe seguir el robot. Será el resultado del A*
     private int expandidos[][]; //Orden de los nodos expandidos. Será el resultado del A*
@@ -33,23 +32,25 @@ public class Pruebas {
     //constructor
     public Pruebas(TNodo tn, String nombre){
         
+        
+        if(nombre.equals("mundo.txt")){
+            destino = 10;
+            tamaño = 20;
+        }
+        else if(nombre.equals("mundo2.txt")){
+            destino = 3;
+            tamaño = 5;
+        }
+
         longitudCamino = 0;
         totalVisitados = 0;
         mundo = Utilidades.getMundo(nombre);
-        tamaño = mundo.length;
-        
-        //saco origen y destino de las esquinas del mundo y las pongo de nuevo a 1
-        origen = mundo[0][0];
-        destino = mundo[tamaño-1][tamaño-1];
-        mundo[0][0] = 1;
-        mundo[tamaño-1][tamaño-1] = 1;
-        
         camino = new char[tamaño][tamaño];
         expandidos = new int[tamaño][tamaño];
         
         
         //nodos inicial y final
-        fin = new TNodo(destino, tamaño - 2,0, null);
+        fin = new TNodo(destino, tamaño -2,0, null);
         
         //inicio lo construyo desde el test
         inicio = tn;
