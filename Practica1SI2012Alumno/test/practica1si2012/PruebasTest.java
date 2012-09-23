@@ -50,13 +50,18 @@ public class PruebasTest {
         
         nombre = "mundo.txt";
         mundo = Utilidades.getMundo(nombre);
+        tamaño = mundo.length;
+        //saco origen y destino de las esquinas del mundo y las pongo de nuevo a 1
+        origen = mundo[0][0];
+        destino = mundo[tamaño-1][tamaño-1];
+        mundo[0][0] = 1;
+        mundo[tamaño-1][tamaño-1] = 1;
         
-        if(nombre.equals("mundo.txt")){
-            fin = new TNodo(10, mundo.length-2,0,null);
+        fin = new TNodo(destino, mundo.length-2,0,null);
+        if(nombre.equals("mundo.txt")){   
             longitudCamino = 27;
         }
         else if(nombre.equals("mundo2.txt")){
-            fin = new TNodo(1, mundo.length-2,0,null);
             longitudCamino = 4;
         }
         
@@ -86,12 +91,7 @@ public class PruebasTest {
         
         for(int i=0; i<funciones.size(); i++){
             System.out.println("Heuristica: " + (funciones.get(i).toString().replaceAll(parser, "")));
-            if(nombre.equals("mundo.txt")){
-                inicio = new TNodo(10,1,0,null, funciones.get(i));
-            }
-            else if(nombre.equals("mundo2.txt")){
-                inicio = new TNodo(1,1,0,null, funciones.get(i));
-            }
+            inicio = new TNodo(origen,1,0,null, funciones.get(i));
             
             Pruebas instance = new Pruebas(inicio, nombre);
             int expResult = 0;

@@ -91,13 +91,15 @@ public class Utilidades {
                                          else
                                             mundo[i][j] = 1;
                                 }
-
                                 i++;
                             }else{
                                 System.err.println("ERROR. Formato del fichero incorrecto");
                                 return false;
                             }
                         }
+                        //utilizo las esquinas del mundo inaccesibles para guardar origen y destino
+                        mundo[0][0] = origen;
+                        mundo[tamaño_mundo-1][tamaño_mundo-1] = destino;
 
                     } catch (IOException e1)
                     {
