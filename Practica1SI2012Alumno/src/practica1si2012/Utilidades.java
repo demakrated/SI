@@ -1,7 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
+*/
 package practica1si2012;
 
 import java.io.BufferedReader;
@@ -10,19 +10,27 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- *
- * @author danielpedrajasvandevelde
- */
+*
+* @author danielpedrajasvandevelde
+*/
 public class Utilidades {
     
     private Utilidades instancia = new Utilidades();
     private Utilidades(){};
     private static int tamaño_mundo;
+    private static int [][] mundo;
+    private static int origen;
+    private static int destino;
+    
+    public static int [][]getMundo(String archivo){
+        leerMundo(archivo);
+        return mundo;
+    }
     
     
       //Función para leer el fichero
      //Lee un tablero de juego desde un fichero
-    private static boolean leerMundo(String archivo, int [][]mundo, int origen, int destino){
+    private static boolean leerMundo(String archivo){
         FileReader fr = null;
         String sCadena;
         String delimitador = " ";
@@ -83,13 +91,15 @@ public class Utilidades {
                                          else
                                             mundo[i][j] = 1;
                                 }
-
                                 i++;
                             }else{
                                 System.err.println("ERROR. Formato del fichero incorrecto");
                                 return false;
                             }
                         }
+                        //utilizo las esquinas del mundo inaccesibles para guardar origen y destino
+                        mundo[0][0] = origen;
+                        mundo[tamaño_mundo-1][tamaño_mundo-1] = destino;
 
                     } catch (IOException e1)
                     {
@@ -117,11 +127,12 @@ public class Utilidades {
             return true;
     }
     
-
-    public static boolean getLeer(String archivo, int [][]mundo, int origen, int destino){
-        
-        return leerMundo(archivo, mundo, origen, destino);
+    public static int getOrigen(){
+        return origen;
     }
- 
+    
+    public static int getDestino(){
+        return destino;
+    }
     
 }

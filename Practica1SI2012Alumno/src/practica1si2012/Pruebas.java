@@ -1,7 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
+*/
 package practica1si2012;
 
 import java.util.ArrayList;
@@ -9,13 +9,14 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
- *
- * @author danielpedrajasvandevelde
- */
+*
+* @author danielpedrajasvandevelde
+*/
 public class Pruebas {
     
-    private int [][] mundo; 
+    private int [][] mundo;
 
+    private int origen;
     private int destino; //Punto de destino del robot. Será la columna tamaño-2 y esta fila
     private char camino[][]; //Camino que debe seguir el robot. Será el resultado del A*
     private int expandidos[][]; //Orden de los nodos expandidos. Será el resultado del A*
@@ -23,34 +24,29 @@ public class Pruebas {
     private int totalVisitados;
     private int longitudCamino;
     private TNodo inicio;
-    private TNodo fin; 
+    private TNodo fin;
         
-        
-    //camino de nodos visitados del camino más corto
-    private ArrayList<TNodo> visitados = new ArrayList<TNodo>();
     
     //constructor
     public Pruebas(TNodo tn, String nombre){
         
-        
-        if(nombre.equals("mundo.txt")){
-            destino = 10;
-            tamaño = 20;
-        }
-        else if(nombre.equals("mundo2.txt")){
-            destino = 3;
-            tamaño = 5;
-        }
-
         longitudCamino = 0;
         totalVisitados = 0;
         mundo = Utilidades.getMundo(nombre);
+        tamaño = mundo.length;
+        
+        //saco origen y destino de las esquinas del mundo y las pongo de nuevo a 1
+        origen = mundo[0][0];
+        destino = mundo[tamaño-1][tamaño-1];
+        mundo[0][0] = 1;
+        mundo[tamaño-1][tamaño-1] = 1;
+        
         camino = new char[tamaño][tamaño];
         expandidos = new int[tamaño][tamaño];
         
         
         //nodos inicial y final
-        fin = new TNodo(destino, tamaño -2,0, null);
+        fin = new TNodo(destino, tamaño - 2,0, null);
         
         //inicio lo construyo desde el test
         inicio = tn;
@@ -129,17 +125,17 @@ public class Pruebas {
 
             while(!listaFrontera.isEmpty() && !end){
                 
-                nodo = listaFrontera.poll();    //devuelvo la cima sin eliminar
+                nodo = listaFrontera.poll(); //devuelvo la cima sin eliminar
                 listaInterior.add(nodo);
     
-                if(nodo.equals(fin)){   //si ya he llegado paro, sino expando nodos
+                if(nodo.equals(fin)){ //si ya he llegado paro, sino expando nodos
                      //construyo bien el nodo llegada
                     end = true;
                 }
                 else{
                     //expando y añado nuevos nodos a la lista forntera filtrando visitados
-                    intermedios.addAll(nodo.expandir(mundo));   //expando nodos
-                    filtrarVisitados(intermedios, listaInterior);  //una vez expandidos filtro los ya visitados
+                    intermedios.addAll(nodo.expandir(mundo)); //expando nodos
+                    filtrarVisitados(intermedios, listaInterior); //una vez expandidos filtro los ya visitados
                     filtrarFrontera(listaFrontera, intermedios);
                     listaFrontera.addAll(intermedios);
                     intermedios.clear();
@@ -169,7 +165,7 @@ public class Pruebas {
         public void filtrarVisitados(ArrayList<TNodo> lista, ArrayList<TNodo> visitados){
             
             lista.removeAll(visitados);
-        }    
+        }
         
         public void filtrarFrontera(PriorityQueue<TNodo> pq, ArrayList<TNodo> lista){
             
@@ -184,7 +180,7 @@ public class Pruebas {
             
             for(int i=0; i<lista.size(); i++){
                 aux = lista.get(i);
-                expandidos[aux.getPosicion()[0]][aux.getPosicion()[1]] = i;            
+                expandidos[aux.getPosicion()[0]][aux.getPosicion()[1]] = i;
             }
         }
                 
@@ -197,7 +193,7 @@ public class Pruebas {
                 pos = aux.getPosicion();
                 aux = aux.getPapa();
                 camino[pos[0]][pos[1]] = 'X';
-                longitudCamino++;  
+                longitudCamino++;
             }
             pos = aux.getPosicion();
             camino[pos[0]][pos[1]] = 'X';
