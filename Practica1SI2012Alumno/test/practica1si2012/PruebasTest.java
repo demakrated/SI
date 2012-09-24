@@ -6,6 +6,8 @@ package practica1si2012;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -64,17 +66,13 @@ public class PruebasTest {
         else if(nombre.equals("mundo2.txt")){
             longitudCamino = 4;
         }
-        
-        Heuristica h;
-        h = new Exhaustiva(fin);
-        
+           
         //relleno el array con instancias de las diferenes heuristicas
         funciones = new ArrayList<Heuristica>();
         funciones.add(new Exhaustiva(fin));
         funciones.add(new Manhattan(fin));
-        funciones.add((new Voraz(fin)));
         funciones.add(new Diagonal(fin));
-        
+  
     }
     
     @After
