@@ -18,32 +18,21 @@ public class Diagonal implements Heuristica{
     
     public int calcular(TNodo inicio){
         
-        Heuristica Hip = new Pitagoras(inicio);
-        int hipotenusa = Hip.calcular(inicio);
         int horizontal, vertical;
         
-        if(fin.getPosicion()[0] < inicio.getPosicion()[0]){
-            horizontal = inicio.getPosicion()[0] - fin.getPosicion()[0];
+        //horizontal = filas y columnas = columnas
+        
+
+        horizontal = Math.abs(inicio.getPosicion()[0] - fin.getPosicion()[0]);
+        vertical = Math.abs(inicio.getPosicion()[1] - fin.getPosicion()[1]);
+
+        if(vertical > horizontal){
+            return 14*horizontal + 10*(vertical - horizontal);
         }
         else{
-            horizontal = fin.getPosicion()[0] - inicio.getPosicion()[0];
+            return 14*vertical +10*(horizontal - vertical);
         }
-        
-         if(fin.getPosicion()[1] < inicio.getPosicion()[1]){
-            vertical = inicio.getPosicion()[1] - fin.getPosicion()[1];
-        }
-        else{
-            vertical = fin.getPosicion()[1] - inicio.getPosicion()[1];
-        }
-        
-        
-        int min = hipotenusa*Math.min(horizontal, vertical);
-        
-        int mid = (horizontal + vertical)*vertical;
-        
-        int last = 2*Math.min(horizontal, vertical);
-        
-        return min + mid + last;
+
     }
     
     public String toString(){
