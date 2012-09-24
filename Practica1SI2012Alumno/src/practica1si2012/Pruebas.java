@@ -11,6 +11,7 @@ import java.util.PriorityQueue;
 /**
 *
 * @author danielpedrajasvandevelde
+* clase de pruebas con todo lo necesario para leer un mundo y calcular A* con diferentes heuristicas
 */
 public class Pruebas {
     
@@ -62,7 +63,7 @@ public class Pruebas {
         
     }
     
-    //constructor
+    //constructor sin parametros (no usado por ahora)
     public Pruebas(){
 
         destino =3;
@@ -91,6 +92,7 @@ public class Pruebas {
         
     }
     
+    //getter de la longitud del camino dedse origen a destino
     public int getLongitud(){
         return longitudCamino;
     }
@@ -155,11 +157,6 @@ public class Pruebas {
             return 0;
         }
         
-        public int busquedaExhaustiva(){
-            
-            return 0;
-        }
-        
         
         //funcion de filtrado de nodos visitados para no volver a expadir hacia atras
         public void filtrarVisitados(ArrayList<TNodo> lista, ArrayList<TNodo> visitados){
@@ -167,6 +164,7 @@ public class Pruebas {
             lista.removeAll(visitados);
         }
         
+        //filtra nodos que ya esten en la listafrontera
         public void filtrarFrontera(PriorityQueue<TNodo> pq, ArrayList<TNodo> lista){
             
             lista.removeAll(pq);
@@ -199,7 +197,7 @@ public class Pruebas {
             camino[pos[0]][pos[1]] = 'X';
         }
         
-         //imprime matriz tipo char por pantalla
+         //imprime matriz tipo char por pantalla (el camino)
         public void imprimirCamino(){
             
             System.out.println("Camino: (Cuya longitud es: " + longitudCamino + ")");
@@ -211,7 +209,7 @@ public class Pruebas {
             }
         }
 
-        //imprime una matriz de enteros
+        //imprime una matriz de enteros (los expandidos y visitados)
         public void imprimirExpandidos(){
 
             System.out.println("Nodos explorados: (en total " + (totalVisitados - 1) + ")");

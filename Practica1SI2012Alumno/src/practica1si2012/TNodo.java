@@ -32,9 +32,7 @@ public class TNodo {
         
         //array de los nodos a los que se puede expandir
         ArrayList <TNodo> expansion = new ArrayList <TNodo>();
-        
-        TNodo aux;
-        
+
         //si puedo expandir hacia arriba expando
         if(fila > 1 && mundo[fila - 1][columna] == 0){
             expansion.add(new TNodo(fila-1, columna, real + 1, this, h));
@@ -65,7 +63,7 @@ public class TNodo {
         if(this.getCoste() < b.getCoste()){
             return -1;}
         else if(this.getCoste() == b.getCoste()){
-            return 0;}
+                return 0;}     
         else{
             return 1;
         }
@@ -85,12 +83,13 @@ public class TNodo {
         return (fila == nodo.fila && columna == nodo.columna);
     }
     
-    
+    //sobrecarga de toString para facilitar la lectura de los pasosdel test
     public String toString(){
         
         return fila + ", " + columna;
     }
     
+    //getter de la posicion en un vector de 2 elementos
     public int[] getPosicion(){
         int[] pos = new int[2];
         pos[0]=fila;

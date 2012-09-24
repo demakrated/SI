@@ -32,7 +32,7 @@ public class MiRobot extends Agent{
         int tamaño; //Tamaño del mundo
         int totalVisitados;
         int longitudCamino;
-        TNodo inicio;
+        TNodo inicio;   //nodos creados a partir de origen y destino
         TNodo fin;
 
 
@@ -73,7 +73,7 @@ public class MiRobot extends Agent{
             
             //camino de nodos visitados del camino más corto
             ArrayList<TNodo> listaInterior = new ArrayList<TNodo>();
-             //camino de nodos visitados del camino más corto auxiliar
+            //camino de nodos visitados del camino más corto auxiliar para filtrar nodos antes de visitarlos
             ArrayList<TNodo> intermedios = new ArrayList<TNodo>();
             //comparador para el heap
             Comparator<TNodo> comparator = new TNodoComparator();
@@ -87,6 +87,7 @@ public class MiRobot extends Agent{
             TNodo nodo;
             boolean end = false;
 
+            //bucle del algoritmo
             while(!listaFrontera.isEmpty() && !end){
                 
                 nodo = listaFrontera.poll();    //devuelvo la cima sin eliminar
@@ -126,12 +127,13 @@ public class MiRobot extends Agent{
             lista.removeAll(visitados);
         }    
         
+        //funcion que filtra los nodos que ya estén en la frontera
         public void filtrarFrontera(PriorityQueue<TNodo> pq, ArrayList<TNodo> lista){
             
             lista.removeAll(pq);
         }
         
-        //escribir orden de exploracion de nodos
+        //escribir orden de exploracion de nodos en su matriz expandidos
         public void escribirOrden(ArrayList<TNodo> lista){
             
             //ultimo nodo
@@ -158,7 +160,7 @@ public class MiRobot extends Agent{
             camino[pos[0]][pos[1]] = 'X';
         }
         
-         //imprime matriz tipo char por pantalla
+         //imprime matriz tipo char por pantalla (camino)
         public void imprimirCamino(){
             
             System.out.println("Camino: (Cuya longitud es: " + longitudCamino + ")");
@@ -170,7 +172,7 @@ public class MiRobot extends Agent{
             }
         }
 
-        //imprime una matriz de enteros
+        //imprime una matriz de enteros (visitados)
         public void imprimirExpandidos(){
 
             System.out.println("Nodos explorados: (en total " + (totalVisitados - 1) + ")");

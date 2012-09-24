@@ -1,36 +1,45 @@
 /*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package practica1si2012;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import simbad.gui.Simbad;
+
 
 /**
-*
-* @author danielpedrajasvandevelde
-*/
-public class Utilidades {
-    
-    private Utilidades instancia = new Utilidades();
-    private Utilidades(){};
-    private static int tamaño_mundo;
-    private static int [][] mundo;
-    private static int origen;
-    private static int destino;
-    
-    public static int [][]getMundo(String archivo){
-        leerMundo(archivo);
-        return mundo;
+ *
+ * @author mireia
+ */
+public class Practica1 {
+
+    //Tamaño del mundo
+    int tamaño_mundo;
+    //Coordenada de inicio del robot
+    int origen;
+    //Objetivo de llegada del robot
+    int destino;
+    //Matriz que contiene el mundo
+    int mundo[][];
+    //Mundo donde se encuentra el robot
+    MiEntorno entorno;
+
+    public Practica1(){
+        tamaño_mundo = 0;
+        origen = 0;
+        destino = 0;
+        mundo = null;
     }
-    
-    
-      //Función para leer el fichero
+
+ 
+     //Función para leer el fichero
      //Lee un tablero de juego desde un fichero
-    private static boolean leerMundo(String archivo){
+    public boolean leerMundo(String archivo){
         FileReader fr = null;
         String sCadena;
         String delimitador = " ";
@@ -91,15 +100,13 @@ public class Utilidades {
                                          else
                                             mundo[i][j] = 1;
                                 }
+
                                 i++;
                             }else{
                                 System.err.println("ERROR. Formato del fichero incorrecto");
                                 return false;
                             }
                         }
-                        //utilizo las esquinas del mundo inaccesibles para guardar origen y destino
-                        mundo[0][0] = origen;
-                        mundo[tamaño_mundo-1][tamaño_mundo-1] = destino;
 
                     } catch (IOException e1)
                     {
@@ -126,5 +133,26 @@ public class Utilidades {
         }
             return true;
     }
+
+    void start(String entrada){
+
+            if(leerMundo(entrada)){
+                //Si la lectura del fichero ha sido correcta, crea una instancia del simulador
+                //Solicita antialising
+                System.setProperty("j3d.implicitAntialiasing", "true");
+                //Crea la instancia de Simbad con el entorno
+                entorno = new MiEntorno(this);
+                Simbad frame = new Simbad(entorno, false);
+
+                //Muestra por pantalla el mundo que lee desde fichero
+                /*for (int i=0; i<tamaño_mundo; i++){
+                    for(int j=0;j<tamaño_mundo; j++)
+                        System.out.print(mundo[i][j]+" ");
+                    System.out.println();
+                }*/
+            }else{
+                System.out.println("ERROR EN EL FICHERO");
+            }
+      }
 
 }
