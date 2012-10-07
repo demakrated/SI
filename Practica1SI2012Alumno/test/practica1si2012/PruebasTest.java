@@ -25,10 +25,7 @@ public class PruebasTest {
 
     private int origen; //Punto de partida del robot. Será la columna 1 y esta fila
     private int destino; //Punto de destino del robot. Será la columna tamaño-2 y esta fila
-    private char camino[][]; //Camino que debe seguir el robot. Será el resultado del A*
-    private int expandidos[][]; //Orden de los nodos expandidos. Será el resultado del A*
     private int tamaño; //Tamaño del mundo
-    private int totalVisitados;
     private int longitudCamino;
     private String nombre;
     private ArrayList<Heuristica> funciones;
@@ -66,10 +63,14 @@ public class PruebasTest {
         else if(nombre.equals("mundo2.txt")){
             longitudCamino = 4;
         }
+        else if(nombre.equals("mundo3.txt")){
+            longitudCamino = 18;
+        }
            
         //relleno el array con instancias de las diferenes heuristicas
         funciones = new ArrayList<Heuristica>();
         funciones.add(new Exhaustiva(fin));
+        funciones.add(new DistanciaEuclidea(fin));
         funciones.add(new Manhattan(fin));
         funciones.add(new Diagonal(fin));
   

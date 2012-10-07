@@ -86,6 +86,7 @@ public class MiRobot extends Agent{
             
             TNodo nodo;
             boolean end = false;
+            int resultado = 1;
 
             //bucle del algoritmo
             while(!listaFrontera.isEmpty() && !end){
@@ -96,6 +97,7 @@ public class MiRobot extends Agent{
                 if(nodo.equals(fin)){   //si ya he llegado paro, sino expando nodos
                      //construyo bien el nodo llegada
                     end = true;
+                    resultado = 0;
                 }
                 else{
                     //expando y añado nuevos nodos a la lista forntera filtrando visitados
@@ -117,7 +119,7 @@ public class MiRobot extends Agent{
             imprimirCamino();
             imprimirExpandidos();
 
-            return 0;
+            return resultado;
         }
         
         
