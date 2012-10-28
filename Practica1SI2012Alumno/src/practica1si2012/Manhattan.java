@@ -18,7 +18,7 @@ public class Manhattan implements Heuristica{
     
     public int calcular(TNodo inicio){
         
-        int D = 1;  //variable que ayuda a mantener una buena relacion entre la horizontal y vertical
+        int D = 7;  //variable que ayuda a mantener una buena relacion entre la horizontal y vertical
                     //incrementandola podemos hacer que mejore h(x) hasta cierto punto
         
         int res1 = (fin.getPosicion()[1] - inicio.getPosicion()[1]);    //columnas

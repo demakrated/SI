@@ -10,6 +10,7 @@ VAR_INPUT
     s6 : REAL;
     s7 : REAL;
     s8 : REAL;
+    //sig contiene el angulo con respecto a la siguiente 'X' y la orientacion del robot actual
     sig : REAL;
 END_VAR
 
@@ -20,9 +21,66 @@ END_VAR
 
 //EJEMPLO de definición NO VINCULANTE. Hacer lo mismo para los 7 sensores restantes
 FUZZIFY s0
+    TERM near   := (0,1) (0.5,0.7) (1,0.25) (1.5,0);
+    TERM med    := (0.25,0) (0.75,1) (1.25,0.5) (1.5,0);
+    TERM far    := (0,0) (1.5,1);
+END_FUZZIFY
+
+FUZZIFY s1
     TERM near   := (0,1) (0.5,0.5) (1,0.25) (1.5,0);
     TERM med    := (0.25,0) (0.75,1) (1.25,0) (1.5,0);
     TERM far    := (0,0) (1.5,1);
+END_FUZZIFY
+
+FUZZIFY s2
+    TERM near   := (0,1) (0.5,0.5) (1,0.25) (1.5,0);
+    TERM med    := (0.25,0) (0.75,1) (1.25,0) (1.5,0);
+    TERM far    := (0,0) (1.5,1);
+END_FUZZIFY
+
+FUZZIFY s3
+    TERM near   := (0,1) (0.5,0.5) (1,0.25) (1.5,0);
+    TERM med    := (0.25,0) (0.75,1) (1.25,0) (1.5,0);
+    TERM far    := (0,0) (1.5,1);
+END_FUZZIFY
+
+FUZZIFY s4
+    TERM near   := (0,1) (0.5,0.5) (1,0.25) (1.5,0);
+    TERM med    := (0.25,0) (0.75,1) (1.25,0) (1.5,0);
+    TERM far    := (0,0) (1.5,1);
+END_FUZZIFY
+
+FUZZIFY s5
+    TERM near   := (0,1) (0.5,0.5) (1,0.25) (1.5,0);
+    TERM med    := (0.25,0) (0.75,1) (1.25,0) (1.5,0);
+    TERM far    := (0,0) (1.5,1);
+END_FUZZIFY
+
+FUZZIFY s6
+    TERM near   := (0,1) (0.5,0.5) (1,0.25) (1.5,0);
+    TERM med    := (0.25,0) (0.75,1) (1.25,0) (1.5,0);
+    TERM far    := (0,0) (1.5,1);
+END_FUZZIFY
+
+FUZZIFY s7
+    TERM near   := (0,1) (0.5,0.5) (1,0.25) (1.5,0);
+    TERM med    := (0.25,0) (0.75,1) (1.25,0) (1.5,0);
+    TERM far    := (0,0) (1.5,1);
+END_FUZZIFY
+
+FUZZIFY s8
+    TERM near   := (0,1) (0.5,0.5) (1,0.25) (1.5,0);
+    TERM med    := (0.25,0) (0.75,1) (1.25,0) (1.5,0);
+    TERM far    := (0,0) (1.5,1);
+END_FUZZIFY
+
+//EJEMPLO de definición NO VINCULANTE de sig
+FUZZIFY sig
+    TERM Hder   :=    (-90,1) (-75,0.5) (-35,0);
+    TERM Mder    :=    (-75,0)(-35,1) (-10,0);
+    TERM recto  :=    (-10,0) (0,1) (10,0);
+    TERM Mizq    :=    (10,0) (35,1) (75,0);
+    TERM Hizq   :=    (35,0) (75,0.5) (90,1);
 END_FUZZIFY
 
 
@@ -37,7 +95,7 @@ DEFUZZIFY vel
     DEFAULT := 1;
 END_DEFUZZIFY
 
-//EJEMPLO de definición NO VINCULANTE
+//EJEMPLO de definición NO VINCULANTE de rot
 DEFUZZIFY rot
     TERM izqm   :=    (-10,0) (0,0) (10,1);
     TERM izq    :=    (-10,0)(-5,0) (0,1) (5,1) (10,0);
@@ -51,6 +109,8 @@ DEFUZZIFY rot
     DEFAULT := 0;
 END_DEFUZZIFY
 
+
+
 //Reglas por defecto
 //EJEMPLO de definición de reglas NO VINCULANTE
 RULEBLOCK No1
@@ -63,8 +123,37 @@ RULEBLOCK No1
     ACCU : MAX;
 
     //Definir las reglas del SE
-    RULE 1: IF s0 IS far THEN vel IS med;
-    RULE 2: IF s0 IS near THEN rot IS izqm;
+    RULE 1: IF s0 IS far THEN vel IS fast;
+    RULE 2: IF s0 IS med THEN vel IS med;
+    RULE 3: IF s0 IS near THEN vel IS slow;
+    RULE 4: IF s1 IS near THEN vel IS slow;
+    RULE 5: IF s8 IS near THEN vel is slow;
+    RULE 6: IF s7 is near THEN vel is slow;
+    RULE 7: IF s1 IS med THEN vel IS slow;
+    RULE 8: IF s1 IS near THEN rot IS derm;
+    RULE 9: IF s8 IS near THEN rot IS izqm;
+    RULE 10: IF s1 IS med THEN rot IS derm;
+    RULE 11: IF s8 IS med THEN rot IS izqm;
+    RULE 12: IF s7 IS near THEN rot IS izqm;
+    RULE 13: IF s2 IS near THEN rot IS derm;
+    RULE 14: IF sig IS Hizq THEN rot IS izqm;
+    RULE 15: IF sig IS Mizq THEN rot is izq;
+    RULE 16: IF sig IS recto THEN rot is cen;
+    RULE 17: IF sig IS Mder THEN rot is der;
+    RULE 18: IF sig IS Hder THEN rot is derm;
+    RULE 19: IF s0 IS med AND sig IS Hizq THEN rot is izqm;
+    RULE 20: IF s0 IS med AND sig IS Mizq THEN rot is izq;
+    RULE 21: IF s0 IS med AND sig IS recto THEN rot is cen;
+    RULE 22: IF s0 IS med AND sig IS Mder THEN rot is der;
+    RULE 23: IF s0 IS med AND sig IS Hder THEN rot is derm;
+    RULE 24: IF s0 IS near AND sig IS Hizq THEN rot is izqm;
+    RULE 25: IF s0 IS near AND sig IS Mizq THEN rot is izqm;
+    RULE 26: IF s0 IS near AND sig IS recto THEN rot is cen;
+    RULE 27: IF s0 IS near AND sig IS Mder THEN rot is derm;
+    RULE 28: IF s0 IS near AND sig IS Hder THEN rot is derm; 
+    
+
+    
 
 END_RULEBLOCK
 
